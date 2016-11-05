@@ -15,6 +15,8 @@
 		DACCE4771DCE19E1004DD974 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DACCE4751DCE19E1004DD974 /* LaunchScreen.storyboard */; };
 		DACCE4821DCE19E1004DD974 /* ___________Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = DACCE4811DCE19E1004DD974 /* ___________Tests.m */; };
 		DACCE48D1DCE19E1004DD974 /* ___________UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DACCE48C1DCE19E1004DD974 /* ___________UITests.m */; };
+		DACCE49D1DCE1AFF004DD974 /* HHTitlePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DACCE49C1DCE1AFF004DD974 /* HHTitlePageView.m */; };
+		DACCE4A01DCE1B10004DD974 /* HHContentPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DACCE49F1DCE1B10004DD974 /* HHContentPageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,10 @@
 		DACCE4881DCE19E1004DD974 /* 标题及内容控制器的联动UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "标题及内容控制器的联动UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DACCE48C1DCE19E1004DD974 /* ___________UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "___________UITests.m"; sourceTree = "<group>"; };
 		DACCE48E1DCE19E1004DD974 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DACCE49B1DCE1AFF004DD974 /* HHTitlePageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTitlePageView.h; sourceTree = "<group>"; };
+		DACCE49C1DCE1AFF004DD974 /* HHTitlePageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTitlePageView.m; sourceTree = "<group>"; };
+		DACCE49E1DCE1B10004DD974 /* HHContentPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHContentPageView.h; sourceTree = "<group>"; };
+		DACCE49F1DCE1B10004DD974 /* HHContentPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHContentPageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,7 @@
 		DACCE4661DCE19E1004DD974 /* 标题及内容控制器的联动 */ = {
 			isa = PBXGroup;
 			children = (
+				DACCE49A1DCE1AA8004DD974 /* HHTitleContentView */,
 				DACCE46A1DCE19E1004DD974 /* AppDelegate.h */,
 				DACCE46B1DCE19E1004DD974 /* AppDelegate.m */,
 				DACCE46D1DCE19E1004DD974 /* ViewController.h */,
@@ -138,6 +145,17 @@
 				DACCE48E1DCE19E1004DD974 /* Info.plist */,
 			);
 			path = "标题及内容控制器的联动UITests";
+			sourceTree = "<group>";
+		};
+		DACCE49A1DCE1AA8004DD974 /* HHTitleContentView */ = {
+			isa = PBXGroup;
+			children = (
+				DACCE49B1DCE1AFF004DD974 /* HHTitlePageView.h */,
+				DACCE49C1DCE1AFF004DD974 /* HHTitlePageView.m */,
+				DACCE49E1DCE1B10004DD974 /* HHContentPageView.h */,
+				DACCE49F1DCE1B10004DD974 /* HHContentPageView.m */,
+			);
+			path = HHTitleContentView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,7 +289,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DACCE46F1DCE19E1004DD974 /* ViewController.m in Sources */,
+				DACCE4A01DCE1B10004DD974 /* HHContentPageView.m in Sources */,
 				DACCE46C1DCE19E1004DD974 /* AppDelegate.m in Sources */,
+				DACCE49D1DCE1AFF004DD974 /* HHTitlePageView.m in Sources */,
 				DACCE4691DCE19E1004DD974 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
