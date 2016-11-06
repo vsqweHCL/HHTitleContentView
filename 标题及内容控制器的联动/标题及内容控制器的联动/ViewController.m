@@ -16,10 +16,14 @@
 #define kScreenH [UIScreen mainScreen].bounds.size.height
 #define RGBA(r, g, b) [UIColor colorWithRed:(r / 255.0) green:(g / 255.0) blue:(b / 255.0) alpha:1.0]
 
-@interface ViewController ()
+@interface ViewController () <HHTitlePageViewDelegate,HHContentPageViewDelegate>
 
 /** 所有的控制器数组 */
 @property (nonatomic, strong) NSMutableArray *childVcs;
+
+
+@property (nonatomic, weak) HHTitlePageView *titlePageView;
+@property (nonatomic, weak) HHContentPageView *contentView;
 @end
 
 @implementation ViewController
@@ -43,7 +47,10 @@
     CGRect titleF = CGRectMake(0, kNavigationBarH, self.view.frame.size.width, kTitlePageViewH);
     NSArray *titles = [NSArray arrayWithObjects:@"标题1",@"标题2",@"标题3",@"标题4", nil];
     HHTitlePageView *titlePageView = [[HHTitlePageView alloc] initWithFrame:titleF titles:titles];
+    titlePageView.delegate = self;
     [self.view addSubview:titlePageView];
+    self.titlePageView = titlePageView;
+    
     
     // 2.创建内容
     CGFloat contentH = kScreenH - kNavigationBarH;
@@ -54,12 +61,19 @@
         [self.childVcs addObject:vc];
     }
     HHContentPageView *contentView = [[HHContentPageView alloc] initWithFrame:contentF childVcs:self.childVcs parentViewController:self];
+    contentView.delegate = self;
     [self.view addSubview:contentView];
+    self.contentView = contentView;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - 标题被点击的代理,通知contentView滚动
+- (void)titleView:(HHTitlePageView *)titleView didSelectedIndex:(NSInteger)index
+{
+    [self.contentView setCurrentIndex:index];
 }
-
+#pragma mark - 内容滚动了的代理,通知titleView选中标题
+- (void)contentView:(HHContentPageView *)contentView scale:(CGFloat)scale sourceIndex:(NSInteger)sourceIndex targetIndex:(NSInteger)targetIndex
+{
+    [self.titlePageView setTitleWithScale:scale sourceIndex:sourceIndex targetIndex:targetIndex];
+}
 @end

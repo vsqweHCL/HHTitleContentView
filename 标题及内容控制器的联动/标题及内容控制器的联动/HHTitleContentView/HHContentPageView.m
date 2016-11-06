@@ -18,6 +18,11 @@ static NSString *const ID = @"cellID";
 
 /** UICollectionView用来循环利用控制器的view */
 @property (nonatomic, strong) UICollectionView *collectionView;
+
+/** 记录collectionView开始滑动的offsetX */
+@property (nonatomic, assign) CGFloat startOffsetX;
+/** 如果是标题点击，就禁止scrollView滚动 */
+@property (nonatomic, assign) BOOL isForbidScrollDelegate;
 @end
 
 @implementation HHContentPageView
@@ -49,6 +54,10 @@ static NSString *const ID = @"cellID";
         self.childVcs = childVcs;
         self.parentViewController = parentViewController;
         self.frame = frame;
+        
+        // 默认startOffsetX为0
+        self.startOffsetX = 0;
+        self.isForbidScrollDelegate = NO;
         
         // 设置UI界面
         [self setupUI];
@@ -91,6 +100,65 @@ static NSString *const ID = @"cellID";
 #pragma mark - 代理
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+    // 自己要滚的
+    self.isForbidScrollDelegate = NO;
     
+    // 记录开始滑动的startOffsetX
+    self.startOffsetX = scrollView.contentOffset.x;
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    // 标题点击的，就禁止scrollView滚动
+    if (self.isForbidScrollDelegate) return;
+    
+    // 需要获取的值
+    CGFloat scale = 0;
+    NSInteger sourceIndex = 0;
+    NSInteger tagertIndex = 0;
+    
+    CGFloat scrollViewW = scrollView.bounds.size.width;
+    // 获取当前滑动的offsetX，判断左滑还是右滑
+    CGFloat currentOffsetX = scrollView.contentOffset.x;
+    if (currentOffsetX > self.startOffsetX) { // 左滑
+        scale = currentOffsetX / scrollViewW - floor(currentOffsetX / scrollViewW);
+        sourceIndex = (int)(currentOffsetX / scrollViewW);
+        tagertIndex = sourceIndex + 1;
+        
+        // 越界处理
+        if (tagertIndex >= self.childVcs.count) {
+            tagertIndex = self.childVcs.count - 1;
+        }
+        
+        // 完全滑动完毕
+        if (currentOffsetX - self.startOffsetX == scrollViewW) {
+            scale = 1;
+            tagertIndex = sourceIndex;
+        }
+    }
+    else { // 右滑
+        scale = 1 - (currentOffsetX / scrollViewW - floor(currentOffsetX / scrollViewW));
+        tagertIndex = (int)(currentOffsetX / scrollViewW);
+        sourceIndex = tagertIndex + 1;
+        
+        // 越界处理
+        if (sourceIndex >= self.childVcs.count) {
+            sourceIndex = self.childVcs.count - 1;
+        }
+        
+    }
+    /** 代理通知控制器滚动的比例、源index、目标index */
+    if ([self.delegate respondsToSelector:@selector(contentView:scale:sourceIndex:targetIndex:)]) {
+        [self.delegate contentView:self scale:scale sourceIndex:sourceIndex targetIndex:tagertIndex];
+    }
+}
+
+#pragma mark - 公共方法
+- (void)setCurrentIndex:(NSInteger)currentIndex
+{
+    // 标题点击的，就禁止scrollView滚动
+    self.isForbidScrollDelegate = YES;
+    
+    CGFloat offsetX = currentIndex * self.collectionView.frame.size.width;
+    [self.collectionView setContentOffset:CGPointMake(offsetX, 0) animated:YES];
 }
 @end
